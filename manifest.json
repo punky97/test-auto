@@ -1,0 +1,27 @@
+{
+  "name": "Facebook Reporting Assistant",
+  "description": "In order to solve the data loss caused by the iOS 14 privacy settings, ShopBase merchants can use this application to match their real-time store order data with the corresponding campaign/adset/ad on their Facebook Ads Manager, so that find out how to optimize their advertising campaigns in a timely manner.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "permissions": ["storage", "activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "/icons/fbads.png",
+      "32": "/icons/fbads.png",
+      "48": "/icons/fbads.png",
+      "128": "/icons/fbads.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.facebook.com/*"],
+      "js": ["js/vendor/jquery.min.js", "js/content.js", "js/vendor/localbase.dev.js"],
+      "css" : []
+    }
+  ]
+
+}
