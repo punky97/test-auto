@@ -19,7 +19,7 @@
   "content_scripts": [
     {
       "matches": ["https://*.facebook.com/*"],
-      "js": ["js/vendor/jquery.min.js", "js/content.js", "js/vendor/localbase.dev.js"],
+      "js": ["js/vendor/jquery.min.js", "js/const.js", "js/content.js", "js/vendor/localbase.dev.js"],
       "css" : []
     }
   ]
