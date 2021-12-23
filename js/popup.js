@@ -1,4 +1,3 @@
-const BASE_URL = "https://gapi.dev.shopbase.net/admin/sales-channel/app?account_id="
 $(document).ready(async function () {
     await getInfoAds()
     let status = await getFromStorage("status");
@@ -7,9 +6,11 @@ $(document).ready(async function () {
     } else {
         $("input[name=on_off]").prop("checked", false)
     }
+    let [tab] = await chrome.tabs.query({active: true, currentWindow: true});
     $('input[name=on_off]').on("change", async function () {
         if ($(this).is(":checked")) {
             chrome.storage.sync.set({"status": "on"});
+            chrome.tabs.sendMessage(tab.id, {"message": "start"});
         } else {
             chrome.storage.sync.set({"status": "off"});
         }
@@ -24,7 +25,7 @@ async function getInfoAds() {
         return
     }
     $.ajax({
-        url: BASE_URL + account_id,
+        url: ACCOUNT_URL + account_id,
         type: 'GET',
         contentType: "application/json",
         success: function (response) {

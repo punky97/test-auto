@@ -1,6 +1,3 @@
-const BASE_URL = "https://gapi.dev.shopbase.net/admin/analytics/app?account_id="
-const FB_ADS = "https://www.facebook.com/adsmanager/manage"
-
 const UTM_CAMPAIGN_ID = "utm_campaign_id"
 const UTM_ADSET = "utm_adset"
 const UTM_AD = "utm_ad"
@@ -10,20 +7,22 @@ const DIV_PARENT = "._1gd4._4li._4muv._3c7k"
 const INPUT_CHECKED = ".e92713mn.svsqgeze.lftrkhxp.jeej7n5h.qbdq5e12.j90q0chr.rbzcxh88.h8e39ki1.eq4fccyu.qnavoh4n.rjrpm8ub.pu1cs6ci.tds9wb2m.i6alm2u7:checked"
 const INPUT_CHECKBOX = ".e92713mn.svsqgeze.lftrkhxp.jeej7n5h.qbdq5e12.j90q0chr.rbzcxh88.h8e39ki1.eq4fccyu.qnavoh4n.rjrpm8ub.pu1cs6ci.tds9wb2m.i6alm2u7"
 let HEADER = []
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        if( request.message === "start" ) {
+            fetchData()
+        }
+    }
+);
 $(document).ready(async function () {
     let db = new Localbase('db')
     getHeader()
     let debounce;
     $("._219p").on('DOMNodeInserted', function (e) {
         clearTimeout(debounce);
-        debounce = setTimeout(
-            async function () {
-                let status = await getFromStorage("status");
-                if (status !== "on") {
-                    return
-                }
-                fetchData()
-            }, 2000
+        debounce = setTimeout(async function () {
+                await checkStatusFetchData(1)
+            }, 1000
         );
     });
     $(INPUT_CHECKBOX).on("change", async function () {
@@ -57,31 +56,13 @@ $(document).ready(async function () {
     })
 
     $("#CAMPAIGN_GROUP_AdsClassicTab").on("click", async function () {
-        let status = await getFromStorage("status");
-        if (status !== "on") {
-            return
-        }
-        setTimeout(function () {
-            fetchData()
-        }, 500)
+        await checkStatusFetchData()
     })
     $("#CAMPAIGN_AdsClassicTab").on("click", async function () {
-        let status = await getFromStorage("status");
-        if (status !== "on") {
-            return
-        }
-        setTimeout(function () {
-            fetchData()
-        }, 500)
+        await checkStatusFetchData()
     })
     $("#ADGROUP_AdsClassicTab").on("click", async function () {
-        let status = await getFromStorage("status");
-        if (status !== "on") {
-            return
-        }
-        setTimeout(async function () {
-            await fetchData()
-        }, 2000)
+        await checkStatusFetchData()
     })
 })
 
@@ -124,8 +105,14 @@ async function getFromStorage(key) {
         });
 }
 
-function readIndexDB() {
-
+async function checkStatusFetchData(delay = 500) {
+    let status = await getFromStorage("status");
+    if (status !== "on") {
+        return
+    }
+    setTimeout(function () {
+        fetchData()
+    }, delay)
 }
 
 function fillData(data) {
@@ -156,9 +143,6 @@ function fillData(data) {
                 if (nameCache !== name) {
                     return
                 }
-                if (typeof data[e] === "undefined") {
-                    return
-                }
                 let amount_spent = 0
                 if (HEADER["amount_spent"] !== "undefined") {
                     amount_spent = $(this).parents(DIV_PARENT).find(`[style*="${HEADER["amount_spent"]}"]`).text()
@@ -170,7 +154,7 @@ function fillData(data) {
                 }
                 let roas = "-"
                 if (amount_spent > 0) {
-                    roas = Math.round((data[e].total_sales / amount_spent), 2)
+                    roas = Math.round((val["total_sales"] / amount_spent), 2)
                 }
                 if (HEADER["view_content"] !== "undefined") {
                     $(this).parents(DIV_PARENT).find(`[style*="${HEADER["view_content"]}"]`).find(".dgpf1xc5.lyf0d8tr").text(val["view_content"])
@@ -244,7 +228,7 @@ function fetchData() {
         return
     }
     $.ajax({
-        url: BASE_URL + param.account_id,
+        url: ANALYTIC_URL + param.account_id,
         type: 'POST',
         contentType: "application/json",
         data: JSON.stringify({
