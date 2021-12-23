@@ -86,8 +86,8 @@ function getHeader() {
             case "Purchases ":
                 HEADER["total_orders"] = $(this).attr("style").split(";")[2]
                 break
-            case "Purchases Conversion Value ":
-                HEADER["total_sales"] = $(this).attr("style").split(";")[2]
+            case "Website purchase ROAS (return on advertising spend) ":
+                HEADER["web_roas"] = $(this).attr("style").split(";")[2]
                 break
             case "Purchase ROAS (return on ad spend) ":
                 HEADER["roas"] = $(this).attr("style").split(";")[2]
@@ -168,8 +168,8 @@ function fillData(data) {
                 if (HEADER["total_orders"] !== "undefined") {
                     $(this).parents(DIV_PARENT).find(`[style*="${HEADER["total_orders"]}"]`).find(".dgpf1xc5.lyf0d8tr").text(val["total_orders"])
                 }
-                if (HEADER["total_sales"] !== "undefined") {
-                    $(this).parents(DIV_PARENT).find(`[style*="${HEADER["total_sales"]}"]`).find(".dgpf1xc5.lyf0d8tr").text(val["total_sales"])
+                if (HEADER["web_roas"] !== "undefined") {
+                    $(this).parents(DIV_PARENT).find(`[style*="${HEADER["web_roas"]}"]`).find(".dgpf1xc5.lyf0d8tr").text(roas)
                 }
                 if (HEADER["roas"] !== "undefined") {
                     $(this).parents(DIV_PARENT).find(`[style*="${HEADER["roas"]}"]`).find(".dgpf1xc5.lyf0d8tr").text(roas)
