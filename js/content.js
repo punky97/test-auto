@@ -8,8 +8,8 @@ const INPUT_CHECKED = ".e92713mn.svsqgeze.lftrkhxp.jeej7n5h.qbdq5e12.j90q0chr.rb
 const INPUT_CHECKBOX = ".e92713mn.svsqgeze.lftrkhxp.jeej7n5h.qbdq5e12.j90q0chr.rbzcxh88.h8e39ki1.eq4fccyu.qnavoh4n.rjrpm8ub.pu1cs6ci.tds9wb2m.i6alm2u7"
 let HEADER = []
 chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
-        if( request.message === "start" ) {
+    function (request, sender, sendResponse) {
+        if (request.message === "start") {
             fetchData()
         }
     }
@@ -234,7 +234,7 @@ function fetchData() {
         data: JSON.stringify({
             report_type: "fb_ads",
             from_time: split_date[0] + "T00:00:00",
-            to_time: split_date[1] + "T23:59:59",
+            to_time: split_date[1] + "T00:00:00",
             filters: filters,
             group_by: [param.group_by]
         }),
@@ -285,6 +285,10 @@ function parserParam() {
         default:
             group_by = UTM_AD
     }
+    let date = url.searchParams.get("date")
+    if (date !== null && date.length > 0) {
+        date = date.split(",")[0]
+    }
     return {
         fb_ads: true,
         group_by: group_by,
@@ -292,6 +296,6 @@ function parserParam() {
         utm_adset: url.searchParams.get("selected_adset_ids"),
         utm_ad: url.searchParams.get("selected_ad_ids"),
         account_id: url.searchParams.get("act"),
-        date: url.searchParams.get("date"),
+        date: date,
     }
 }
