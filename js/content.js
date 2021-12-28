@@ -133,6 +133,7 @@ async function checkStatusFetchData(delay = 500) {
     if (status !== "on") {
         return
     }
+    getHeader()
     setTimeout(function () {
         fetchData()
     }, delay)
@@ -158,7 +159,7 @@ function fillData(data) {
             })
         }
         setTimeout(function () {
-            if (typeof nameCache === "undefined" && nameCache.length < 1) {
+            if (typeof nameCache === "undefined" || nameCache.length < 1) {
                 return
             }
             $(INPUT_CHECKED).each(function (e) {
