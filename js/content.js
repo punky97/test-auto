@@ -16,6 +16,7 @@ chrome.runtime.onMessage.addListener(
 $(document).ready(async function () {
     let db = new Localbase('db')
     getHeader()
+    getTimeRange()
     let debounce;
     $("._219p").on('DOMNodeInserted', function (e) {
         clearTimeout(debounce);
@@ -69,6 +70,24 @@ $(document).ready(async function () {
         await checkStatusFetchData()
     })
 })
+
+function getTimeRange() {
+    var e = $(".lfknud7c.ofote1xk.berxdx8z").find("._4u-c.i0ppjblf").find(".icik5mi5").find("._5ldw").find("._1uz0 > div:first")[0];
+    if (!e) return [];
+    let t = (2 < e.childNodes.length ? e.childNodes[2] : e.childNodes[0]).data;
+    var a = t.trim().split("–").map(e => {
+            let t = new Date(e.trim());
+            let day = t.getDate()
+            let month = t.getMonth()
+            day = (day<10)?'0'+day:day
+            month = month + 1
+            month = (month<10)?'0'+month:month
+            return `${t.getFullYear()}-${month}-` + day
+        }),
+        e = a[0],
+        a = a[1] || e;
+    return [e, a]
+}
 
 function getHeader() {
     HEADER = []
@@ -189,10 +208,10 @@ function fetchData() {
     if (!param.fb_ads) {
         return
     }
-    if (param.account_id === null || param.date === null || param.account_id.length < 1 || param.date.length < 1) {
+    if (param.account_id === null || param.account_id.length < 1) {
         return
     }
-    let split_date = param.date.split("_")
+    let split_date = getTimeRange()
     let filters = []
     let utm_campaign_id = parserData(param.utm_campaign_id)
     if (utm_campaign_id.length > 0) {
@@ -238,7 +257,7 @@ function fetchData() {
         data: JSON.stringify({
             report_type: "fb_ads",
             from_time: split_date[0] + "T00:00:00",
-            to_time: split_date[1] + "T00:00:00",
+            to_time: split_date[1] + "T23:59:59",
             filters: filters,
             group_by: [param.group_by]
         }),
@@ -289,17 +308,12 @@ function parserParam() {
         default:
             group_by = UTM_AD
     }
-    let date = url.searchParams.get("date")
-    if (date !== null && date.length > 0) {
-        date = date.split(",")[0]
-    }
     return {
         fb_ads: true,
         group_by: group_by,
         utm_campaign_id: url.searchParams.get("selected_campaign_ids"),
         utm_adset: url.searchParams.get("selected_adset_ids"),
         utm_ad: url.searchParams.get("selected_ad_ids"),
-        account_id: url.searchParams.get("act"),
-        date: date,
+        account_id: url.searchParams.get("act")
     }
 }
