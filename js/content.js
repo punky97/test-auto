@@ -25,7 +25,7 @@ $(document).ready(async function () {
             }, 1000
         );
     });
-    $(document).on("change", "input", function () {
+    $(document).on("change", "input", async function () {
         if ($(this).is(':checked')) {
             let param = parserParam()
             if (!param.fb_ads) {
@@ -56,7 +56,7 @@ $(document).ready(async function () {
                     })
                 }
             })
-
+            await checkStatusFetchData()
         }
     })
 
