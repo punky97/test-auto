@@ -923,13 +923,13 @@ var logger = {
   error: function error(message, secondary) {
     if ("development" == 'development' && this.config.debug) {
       var style = logger.baseStyle + "background-color: ".concat(logger.colors.error);
-      console.error('%clocalbase', style, message);
+      console.log('%clocalbase'+ style+ message);
     }
   },
   warn: function warn(message, secondary) {
     if ("development" == 'development' && this.config.debug) {
       var style = logger.baseStyle + "background-color: ".concat(logger.colors.warn);
-      console.warn('%clocalbase', style, message);
+      console.log('%clocalbase', style, message);
     }
   }
 };
@@ -1429,7 +1429,7 @@ function executeTwoCallbacks(promise, callback, errorCallback) {
 function normalizeKey(key) {
     // Cast the key to a string, as that's all we can set as a key.
     if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
+        console.log(key + ' used as a key, but it is not a string.');
         key = String(key);
     }
 
@@ -1604,7 +1604,7 @@ function _getConnection(dbInfo, upgradeNeeded) {
                     }
                 } catch (ex) {
                     if (ex.name === 'ConstraintError') {
-                        console.warn('The database "' + dbInfo.name + '"' + ' has been upgraded from version ' + e.oldVersion + ' to version ' + e.newVersion + ', but the storage "' + dbInfo.storeName + '" already exists.');
+                        console.log('The database "' + dbInfo.name + '"' + ' has been upgraded from version ' + e.oldVersion + ' to version ' + e.newVersion + ', but the storage "' + dbInfo.storeName + '" already exists.');
                     } else {
                         throw ex;
                     }
@@ -1645,7 +1645,7 @@ function _isUpgradeNeeded(dbInfo, defaultVersion) {
         // If the version is not the default one
         // then warn for impossible downgrade.
         if (dbInfo.version !== defaultVersion) {
-            console.warn('The database "' + dbInfo.name + '"' + " can't be downgraded from version " + dbInfo.db.version + ' to version ' + dbInfo.version + '.');
+            console.log('The database "' + dbInfo.name + '"' + " can't be downgraded from version " + dbInfo.db.version + ' to version ' + dbInfo.version + '.');
         }
         // Align the versions to prevent errors.
         dbInfo.version = dbInfo.db.version;
@@ -2550,7 +2550,7 @@ function serialize(value, callback) {
         try {
             callback(JSON.stringify(value));
         } catch (e) {
-            console.error("Couldn't convert value into a JSON string: ", value);
+            console.log("Couldn't convert value into a JSON string: ", value);
 
             callback(null, e);
         }
@@ -3586,7 +3586,7 @@ var LocalForage = function () {
 
                 var setDriverSupport = function setDriverSupport(support) {
                     if (DefinedDrivers[driverName]) {
-                        console.info('Redefining LocalForage driver: ' + driverName);
+                        console.log('Redefining LocalForage driver: ' + driverName);
                     }
                     DefinedDrivers[driverName] = driverObject;
                     DriverSupport[driverName] = support;
