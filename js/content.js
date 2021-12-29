@@ -28,6 +28,7 @@ $(document).ready(async function () {
         );
     });
     $(document).on("change", "input", async function () {
+        clearData()
         if ($(this).is(':checked')) {
             let param = parserParam()
             if (!param.fb_ads) {
