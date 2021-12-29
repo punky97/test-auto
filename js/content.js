@@ -77,7 +77,7 @@ $(document).ready(async function () {
 function clearData() {
     $(INPUT_UNCHECKED).each(function () {
         if (!$(this).is(':checked')) {
-            $(this).parents("._1gd5").find(".generate").remove()
+            $(this).parents(".s7wjoji2.hlufh2qk").parents("._1gd5").find(".generate").remove()
         }
     })
 }
