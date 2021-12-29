@@ -4,7 +4,8 @@ const UTM_AD = "utm_ad"
 const EQUALS = "equals"
 
 const DIV_PARENT = "._1gd4._4li._4muv._3c7k"
-const INPUT_CHECKED = ".e92713mn.svsqgeze.lftrkhxp.jeej7n5h.qbdq5e12.j90q0chr.rbzcxh88.h8e39ki1.eq4fccyu.qnavoh4n.rjrpm8ub.pu1cs6ci.tds9wb2m.i6alm2u7:checked"
+const INPUT_UNCHECKED = ".e92713mn.svsqgeze.lftrkhxp.jeej7n5h.qbdq5e12.j90q0chr.rbzcxh88.h8e39ki1.eq4fccyu.qnavoh4n.rjrpm8ub.pu1cs6ci.tds9wb2m.i6alm2u7"
+const INPUT_CHECKED = INPUT_UNCHECKED + ":checked"
 let HEADER = []
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
@@ -19,9 +20,10 @@ $(document).ready(async function () {
     getTimeRange()
     let debounce;
     $("._219p").on('DOMNodeInserted', function (e) {
+        clearData()
         clearTimeout(debounce);
         debounce = setTimeout(async function () {
-                await checkStatusFetchData(1)
+                await checkStatusFetchData()
             }, 1000
         );
     });
@@ -70,6 +72,14 @@ $(document).ready(async function () {
         await checkStatusFetchData()
     })
 })
+
+function clearData() {
+    $(INPUT_UNCHECKED).each(function () {
+        if (!$(this).is(':checked')) {
+            $(this).parents("._1gd5").find(".generate").remove()
+        }
+    })
+}
 
 function getTimeRange() {
     var e = $(".lfknud7c.ofote1xk.berxdx8z").find("._4u-c.i0ppjblf").find(".icik5mi5").find("._5ldw").find("._1uz0 > div:first")[0];
@@ -183,7 +193,7 @@ function fillData(data) {
                 if (typeof HEADER["view_content"] !== "undefined") {
                     let view_content = $(this).parents(DIV_PARENT).find(`[style*="${HEADER["view_content"]}"]`).find(".ellipsis._1ha3")
                     if (view_content.find("span").length === 1) {
-                        view_content.prepend(genHtml(val["view_content"]));
+                        view_content.prepend(generateHtml(val["view_content"]));
                     } else {
                         view_content.find("span:first").find(".dgpf1xc5.lyf0d8tr").text(val["view_content"])
                     }
@@ -191,7 +201,7 @@ function fillData(data) {
                 if (typeof HEADER["add_to_cart"] !== "undefined") {
                     let add_to_cart = $(this).parents(DIV_PARENT).find(`[style*="${HEADER["add_to_cart"]}"]`).find(".ellipsis._1ha3")
                     if (add_to_cart.find("span").length === 1) {
-                        add_to_cart.prepend(genHtml(val["add_to_cart"]));
+                        add_to_cart.prepend(generateHtml(val["add_to_cart"]));
                     } else {
                         add_to_cart.find("span:first").find(".dgpf1xc5.lyf0d8tr").text(val["add_to_cart"])
                     }
@@ -199,7 +209,7 @@ function fillData(data) {
                 if (typeof HEADER["reached_checkout"] !== "undefined") {
                     let reached_checkout = $(this).parents(DIV_PARENT).find(`[style*="${HEADER["reached_checkout"]}"]`).find(".ellipsis._1ha3")
                     if (reached_checkout.find("span").length === 1) {
-                        reached_checkout.prepend(genHtml(val["reached_checkout"]));
+                        reached_checkout.prepend(generateHtml(val["reached_checkout"]));
                     } else {
                         reached_checkout.find("span:first").find(".dgpf1xc5.lyf0d8tr").text(val["reached_checkout"])
                     }
@@ -207,7 +217,7 @@ function fillData(data) {
                 if (typeof HEADER["total_orders"] !== "undefined") {
                     let total_orders = $(this).parents(DIV_PARENT).find(`[style*="${HEADER["total_orders"]}"]`).find(".ellipsis._1ha3")
                     if (total_orders.find("span").length === 1) {
-                        total_orders.prepend(genHtml(val["total_orders"]));
+                        total_orders.prepend(generateHtml(val["total_orders"]));
                     } else {
                         total_orders.find("span:first").find(".dgpf1xc5.lyf0d8tr").text(val["total_orders"])
                     }
@@ -215,7 +225,7 @@ function fillData(data) {
                 if (typeof HEADER["web_roas"] !== "undefined") {
                     let web_roas = $(this).parents(DIV_PARENT).find(`[style*="${HEADER["web_roas"]}"]`).find(".ellipsis._1ha3")
                     if (web_roas.find("span").length === 1) {
-                        web_roas.prepend(genHtml(roas));
+                        web_roas.prepend(generateHtml(roas));
                     } else {
                         web_roas.find("span:first").find(".dgpf1xc5.lyf0d8tr").text(roas)
                     }
@@ -223,7 +233,7 @@ function fillData(data) {
                 if (typeof HEADER["roas"] !== "undefined") {
                     let roas2 = $(this).parents(DIV_PARENT).find(`[style*="${HEADER["roas"]}"]`).find(".ellipsis._1ha3")
                     if (roas2.find("span").length === 1) {
-                        roas2.prepend(genHtml(roas));
+                        roas2.prepend(generateHtml(roas));
                     } else {
                         roas2.find("span:first").find(".dgpf1xc5.lyf0d8tr").text(roas)
                     }
@@ -233,8 +243,8 @@ function fillData(data) {
     }
 }
 
-function genHtml(val) {
-    return `<span><div class="dgpf1xc5 lyf0d8tr" style="font-weight: bold;color: orange; padding-right: 5px;">${val}</div></span>`
+function generateHtml(val) {
+    return `<span class="generate"><div class="dgpf1xc5 lyf0d8tr" style="font-weight: bold;color: orange; padding-right: 5px;">${val}</div></span>`
 }
 
 // call api
