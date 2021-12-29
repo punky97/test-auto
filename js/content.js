@@ -79,9 +79,9 @@ function getTimeRange() {
             let t = new Date(e.trim());
             let day = t.getDate()
             let month = t.getMonth()
-            day = (day<10)?'0'+day:day
+            day = (day < 10) ? '0' + day : day
             month = month + 1
-            month = (month<10)?'0'+month:month
+            month = (month < 10) ? '0' + month : month
             return `${t.getFullYear()}-${month}-` + day
         }),
         e = a[0],
@@ -178,29 +178,63 @@ function fillData(data) {
                 }
                 let roas = "-"
                 if (amount_spent > 0) {
-                    roas = Math.round((val["total_sales"] / amount_spent), 2)
+                    roas = (val["total_sales"] / amount_spent).toFixed(2)
                 }
                 if (typeof HEADER["view_content"] !== "undefined") {
-                    $(this).parents(DIV_PARENT).find(`[style*="${HEADER["view_content"]}"]`).find(".dgpf1xc5.lyf0d8tr").text(val["view_content"])
+                    let view_content = $(this).parents(DIV_PARENT).find(`[style*="${HEADER["view_content"]}"]`).find(".ellipsis._1ha3")
+                    if (view_content.find("span").length === 1) {
+                        view_content.prepend(genHtml(val["view_content"]));
+                    } else {
+                        view_content.find("span:first").find(".dgpf1xc5.lyf0d8tr").text(val["view_content"])
+                    }
                 }
                 if (typeof HEADER["add_to_cart"] !== "undefined") {
-                    $(this).parents(DIV_PARENT).find(`[style*="${HEADER["add_to_cart"]}"]`).find(".dgpf1xc5.lyf0d8tr").text(val["add_to_cart"])
+                    let add_to_cart = $(this).parents(DIV_PARENT).find(`[style*="${HEADER["add_to_cart"]}"]`).find(".ellipsis._1ha3")
+                    if (add_to_cart.find("span").length === 1) {
+                        add_to_cart.prepend(genHtml(val["add_to_cart"]));
+                    } else {
+                        add_to_cart.find("span:first").find(".dgpf1xc5.lyf0d8tr").text(val["add_to_cart"])
+                    }
                 }
                 if (typeof HEADER["reached_checkout"] !== "undefined") {
-                    $(this).parents(DIV_PARENT).find(`[style*="${HEADER["reached_checkout"]}"]`).find(".dgpf1xc5.lyf0d8tr").text(val["reached_checkout"])
+                    let reached_checkout = $(this).parents(DIV_PARENT).find(`[style*="${HEADER["reached_checkout"]}"]`).find(".ellipsis._1ha3")
+                    if (reached_checkout.find("span").length === 1) {
+                        reached_checkout.prepend(genHtml(val["reached_checkout"]));
+                    } else {
+                        reached_checkout.find("span:first").find(".dgpf1xc5.lyf0d8tr").text(val["reached_checkout"])
+                    }
                 }
                 if (typeof HEADER["total_orders"] !== "undefined") {
-                    $(this).parents(DIV_PARENT).find(`[style*="${HEADER["total_orders"]}"]`).find(".dgpf1xc5.lyf0d8tr").text(val["total_orders"])
+                    let total_orders = $(this).parents(DIV_PARENT).find(`[style*="${HEADER["total_orders"]}"]`).find(".ellipsis._1ha3")
+                    if (total_orders.find("span").length === 1) {
+                        total_orders.prepend(genHtml(val["total_orders"]));
+                    } else {
+                        total_orders.find("span:first").find(".dgpf1xc5.lyf0d8tr").text(val["total_orders"])
+                    }
                 }
                 if (typeof HEADER["web_roas"] !== "undefined") {
-                    $(this).parents(DIV_PARENT).find(`[style*="${HEADER["web_roas"]}"]`).find(".dgpf1xc5.lyf0d8tr").text(roas)
+                    let web_roas = $(this).parents(DIV_PARENT).find(`[style*="${HEADER["web_roas"]}"]`).find(".ellipsis._1ha3")
+                    if (web_roas.find("span").length === 1) {
+                        web_roas.prepend(genHtml(roas));
+                    } else {
+                        web_roas.find("span:first").find(".dgpf1xc5.lyf0d8tr").text(roas)
+                    }
                 }
                 if (typeof HEADER["roas"] !== "undefined") {
-                    $(this).parents(DIV_PARENT).find(`[style*="${HEADER["roas"]}"]`).find(".dgpf1xc5.lyf0d8tr").text(roas)
+                    let roas2 = $(this).parents(DIV_PARENT).find(`[style*="${HEADER["roas"]}"]`).find(".ellipsis._1ha3")
+                    if (roas2.find("span").length === 1) {
+                        roas2.prepend(genHtml(roas));
+                    } else {
+                        roas2.find("span:first").find(".dgpf1xc5.lyf0d8tr").text(roas)
+                    }
                 }
             })
         }, 1000)
     }
+}
+
+function genHtml(val) {
+    return `<span><div class="dgpf1xc5 lyf0d8tr" style="font-weight: bold;color: orange; padding-right: 5px;">${val}</div></span>`
 }
 
 // call api
