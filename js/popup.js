@@ -30,7 +30,7 @@ async function getInfoAds() {
         contentType: "application/json",
         success: function (response) {
             $(".acc_id").text(response.account_id)
-            $(".time_zone").text(response.timezone)
+            $(".time_zone").text(getTimeZone(response.timezone))
             $(".has_data").removeClass("hide");
             $(".not_found").addClass("hide");
         },
@@ -39,6 +39,14 @@ async function getInfoAds() {
             $(".has_data").addClass("hide");
         }
     });
+}
+
+function getTimeZone(timezone) {
+    let val = TIME_ZONE.filter(v => v.value === timezone)
+    if (val.length < 1) {
+        return timezone
+    }
+    return val[0].name
 }
 
 async function getFromStorage(key) {
