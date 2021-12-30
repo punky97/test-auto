@@ -39,14 +39,23 @@ $(document).ready(async function () {
             let id = ""
             switch (param.group_by) {
                 case UTM_CAMPAIGN_ID:
+                    if (param.utm_campaign_id === null) {
+                        break
+                    }
                     ids = param.utm_campaign_id.split(",")
                     id = ids[ids.length - 1]
                     break
                 case UTM_ADSET:
+                    if (param.utm_adset === null) {
+                        break
+                    }
                     ids = param.utm_adset.split(",")
                     id = ids[ids.length - 1]
                     break
                 case UTM_AD:
+                    if (param.utm_ad === null) {
+                        break
+                    }
                     ids = param.utm_ad.split(",")
                     id = ids[ids.length - 1]
             }
@@ -148,6 +157,59 @@ async function checkStatusFetchData(delay = 500) {
     setTimeout(function () {
         fetchData()
     }, delay)
+}
+
+function fakeData(data) {
+    let param = parserParam()
+    let ids = []
+    switch (param.group_by) {
+        case UTM_CAMPAIGN_ID:
+            if (param.utm_campaign_id !== null && param.utm_campaign_id.length > 0) {
+                ids = param.utm_campaign_id.split(",")
+            }
+            break
+        case UTM_ADSET:
+            if (param.utm_adset !== null && param.utm_adset.length > 0) {
+                ids = param.utm_adset.split(",")
+            }
+            break
+        case UTM_AD:
+            if (param.utm_ad !== null && param.utm_ad.length > 0) {
+                ids = param.utm_ad.split(",")
+            }
+    }
+    if (ids.length < 1) {
+        return []
+    }
+    let map = []
+    for (let val of data) {
+        if (UTM_CAMPAIGN_ID in val) {
+            map[val[UTM_CAMPAIGN_ID]] = true
+            break
+        }
+        if (UTM_ADSET in val) {
+            map[val[UTM_ADSET]] = true
+            break
+        }
+        if (UTM_AD in val) {
+            map[val[UTM_AD]] = true
+        }
+    }
+    for (let val of ids) {
+        if (typeof map[val] === "undefined") {
+            let ob = {
+                add_to_cart: 0,
+                reached_checkout: 0,
+                total_orders: 0,
+                total_sales: 0,
+                view_content: 0
+            }
+            ob[param.group_by] = val
+            data.push(ob)
+        }
+    }
+    fillData(data)
+
 }
 
 function fillData(data) {
@@ -260,7 +322,7 @@ function fetchData() {
     let split_date = getTimeRange()
     let filters = []
     let utm_campaign_id = parserData(param.utm_campaign_id)
-    if (utm_campaign_id.length > 0) {
+    if (utm_campaign_id.length > 0 && param.group_by === UTM_CAMPAIGN_ID) {
         filters.push({
             field: UTM_CAMPAIGN_ID,
             operator: EQUALS,
@@ -268,7 +330,7 @@ function fetchData() {
         })
     }
     let utm_adset = parserData(param.utm_adset)
-    if (utm_adset.length > 0) {
+    if (utm_adset.length > 0 && param.group_by === UTM_ADSET) {
         filters.push({
             field: UTM_ADSET,
             operator: EQUALS,
@@ -276,7 +338,7 @@ function fetchData() {
         })
     }
     let utm_ad = parserData(param.utm_ad)
-    if (utm_ad.length > 0) {
+    if (utm_ad.length > 0 && param.group_by === UTM_AD) {
         filters.push({
             field: UTM_AD,
             operator: EQUALS,
@@ -309,9 +371,7 @@ function fetchData() {
         }),
         dataType: "json",
         success: function (response) {
-            if (response.data.length > 0) {
-                fillData(response.data)
-            }
+            fakeData(response.data)
         },
         error: function (xhr, ajaxOptions, thrownError) {
         }
