@@ -185,11 +185,11 @@ function fakeData(data) {
     for (let val of data) {
         if (UTM_CAMPAIGN_ID in val) {
             map[val[UTM_CAMPAIGN_ID]] = true
-            break
+            continue
         }
         if (UTM_ADSET in val) {
             map[val[UTM_ADSET]] = true
-            break
+            continue
         }
         if (UTM_AD in val) {
             map[val[UTM_AD]] = true
