@@ -95,7 +95,11 @@ function getTimeRange() {
     var e = $(".lfknud7c.ofote1xk.berxdx8z").find("._4u-c.i0ppjblf").find(".icik5mi5").find("._5ldw").find("._1uz0 > div:first")[0];
     if (!e) return [];
     let t = (2 < e.childNodes.length ? e.childNodes[2] : e.childNodes[0]).data;
-    var a = t.trim().split("–").map(e => {
+    let dash = "-"
+    if (t.trim().split("-").length < 2) {
+        dash = "–"
+    }
+    var a = t.trim().split(dash).map(e => {
             let t = new Date(e.trim());
             let day = t.getDate()
             let month = t.getMonth()
@@ -394,11 +398,6 @@ function parserData(data) {
 
 function parserParam() {
     let url = new URL(window.location.href);
-    if (url.href.search(FB_ADS) < 0) {
-        return {
-            fb_ads: false
-        }
-    }
     let path_name = url.pathname.split("/")
     let group_by = ""
     switch (path_name[3]) {
