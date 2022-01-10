@@ -7,11 +7,14 @@ const DIV_PARENT = "._1gd4._4li._4muv._3c7k"
 const INPUT_UNCHECKED = ".e92713mn.svsqgeze.lftrkhxp.jeej7n5h.qbdq5e12.j90q0chr.rbzcxh88.h8e39ki1.eq4fccyu.qnavoh4n.rjrpm8ub.pu1cs6ci.tds9wb2m.i6alm2u7"
 const INPUT_CHECKED = INPUT_UNCHECKED + ":checked"
 let HEADER = []
+let CLEAR_DATA = false
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.message === "start") {
+            CLEAR_DATA = false
             fetchData()
         } else {
+            CLEAR_DATA = true
             resetDataFill()
         }
     }
@@ -317,6 +320,9 @@ function fillData(data) {
 }
 
 function generateHtml(val) {
+    if (CLEAR_DATA) {
+        return ''
+    }
     return `<span class="generate"><div class="dgpf1xc5 lyf0d8tr" style="font-weight: bold;color: orange; padding-right: 5px;">${val}</div></span>`
 }
 
