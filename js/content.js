@@ -11,6 +11,8 @@ chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.message === "start") {
             fetchData()
+        } else {
+            resetDataFill()
         }
     }
 );
@@ -82,6 +84,9 @@ $(document).ready(async function () {
         await checkStatusFetchData()
     })
 })
+function resetDataFill() {
+    $(".generate").remove()
+}
 
 function clearData() {
     $(INPUT_UNCHECKED).each(function () {
@@ -155,6 +160,7 @@ async function getFromStorage(key) {
 async function checkStatusFetchData(delay = 500) {
     let status = await getFromStorage("status");
     if (status !== "on") {
+        resetDataFill()
         return
     }
     getHeader()

@@ -13,6 +13,7 @@ $(document).ready(async function () {
             chrome.tabs.sendMessage(tab.id, {"message": "start"});
         } else {
             chrome.storage.sync.set({"status": "off"});
+            chrome.tabs.sendMessage(tab.id, {"message": "close"});
         }
     })
 })
