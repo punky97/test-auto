@@ -1,6 +1,6 @@
 {
   "name": "Facebook Data Assistant",
-  "description": "In order to solve the data loss caused by the iOS 14 privacy settings, ShopBase merchants can use this application to match their real-time store order data with the corresponding campaign/adset/ad on their Facebook Ads Manager, so that find out how to optimize their advertising campaigns in a timely manner.",
+  "description": "This extension is built to adapt to the iOS 14 privacy settings, helps ShopBase sellers view real-time data on Facebook Ads Manager.",
   "version": "1.0",
   "manifest_version": 3,
   "background": {
