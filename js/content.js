@@ -108,7 +108,7 @@ function getTimeRange() {
         dash = "–"
     }
     var a = t.trim().split(dash).map(e => {
-            let t = new Date(e.trim());
+            let t = new Date(e.trim().replace(/[年月]/g, "-").replace(/[日]/g, ""));
             let day = t.getDate()
             let month = t.getMonth()
             day = (day < 10) ? '0' + day : day
@@ -121,31 +121,16 @@ function getTimeRange() {
     return [e, a]
 }
 
-function getHeader() {
+function getHeader()
+{
     HEADER = []
     $("._1eyh._1eyi").each(function (e) {
         let name = $(this).text()
-        switch (name) {
-            case "Amount spent ":
-                HEADER["amount_spent"] = $(this).attr("style").split(";")[2]
+        for (let i in LANGUAGEHEADER) {
+            if(jQuery.inArray(name, LANGUAGEHEADER[i].value) !== -1) {
+                HEADER[LANGUAGEHEADER[i].key] = $(this).attr("style").split(";")[2]
                 break
-            case "Content views ":
-                HEADER["view_content"] = $(this).attr("style").split(";")[2]
-                break
-            case "Adds to cart ":
-                HEADER["add_to_cart"] = $(this).attr("style").split(";")[2]
-                break
-            case "Checkouts Initiated ":
-                HEADER["reached_checkout"] = $(this).attr("style").split(";")[2]
-                break
-            case "Purchases ":
-                HEADER["total_orders"] = $(this).attr("style").split(";")[2]
-                break
-            case "Website purchase ROAS (return on advertising spend) ":
-                HEADER["web_roas"] = $(this).attr("style").split(";")[2]
-                break
-            case "Purchase ROAS (return on ad spend) ":
-                HEADER["roas"] = $(this).attr("style").split(";")[2]
+            }
         }
     })
 }
