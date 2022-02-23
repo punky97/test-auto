@@ -22,7 +22,6 @@ chrome.runtime.onMessage.addListener(
 $(document).ready(async function () {
     let db = new Localbase('db')
     getHeader()
-    getTimeRange()
     let debounce;
     $("._219p").on('DOMNodeInserted', function (e) {
         clearData()
@@ -365,8 +364,8 @@ function fetchData() {
         contentType: "application/json",
         data: JSON.stringify({
             report_type: "fb_ads",
-            from_time: split_date[0] + "T00:00:00",
-            to_time: split_date[1] + "T23:59:59",
+            from_time: split_date[0],
+            to_time: split_date[1],
             filters: filters,
             group_by: [param.group_by]
         }),
