@@ -43,11 +43,14 @@ async function getInfoAds() {
 }
 
 function getTimeZone(timezone) {
+    const date = new Date()
     let val = TIME_ZONE.filter(v => v.value === timezone)
     if (val.length < 1) {
         return timezone
     }
-    return val[0].name
+    return `(GMT${moment(date).tz(timezone).format('Z')}) ${
+        val[0].name
+    }`
 }
 
 async function getFromStorage(key) {
