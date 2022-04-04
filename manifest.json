@@ -1,7 +1,7 @@
 {
   "name": "Facebook Data Assistant",
   "description": "This extension is built to adapt to the iOS 14 privacy settings, helps ShopBase sellers view real-time data on Facebook Ads Manager.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "manifest_version": 3,
   "background": {
     "service_worker": "js/background.js"
