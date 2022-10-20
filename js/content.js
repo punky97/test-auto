@@ -8,17 +8,15 @@ const INPUT_UNCHECKED = ".e92713mn.svsqgeze.lftrkhxp.jeej7n5h.qbdq5e12.j90q0chr.
 const INPUT_CHECKED = INPUT_UNCHECKED + ":checked"
 let HEADER = []
 let CLEAR_DATA = false
-chrome.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
-        if (request.message === "start") {
-            CLEAR_DATA = false
-            fetchData()
-        } else {
-            CLEAR_DATA = true
-            resetDataFill()
-        }
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.message === "start") {
+        CLEAR_DATA = false
+        fetchData()
+    } else {
+        CLEAR_DATA = true
+        resetDataFill()
     }
-);
+});
 $(document).ready(async function () {
     let db = new Localbase('db')
     getHeader()
@@ -27,9 +25,8 @@ $(document).ready(async function () {
         clearData()
         clearTimeout(debounce);
         debounce = setTimeout(async function () {
-                await checkStatusFetchData()
-            }, 1000
-        );
+            await checkStatusFetchData()
+        }, 1000);
     });
     $(document).on("change", "input", async function () {
         clearData()
@@ -67,8 +64,7 @@ $(document).ready(async function () {
             db.collection('campaign').doc({id: id}).get().then(document => {
                 if (typeof document === "undefined") {
                     db.collection('campaign').add({
-                        id: id,
-                        name: name
+                        id: id, name: name
                     })
                 }
             })
@@ -86,6 +82,7 @@ $(document).ready(async function () {
         await checkStatusFetchData()
     })
 })
+
 function resetDataFill() {
     $(".generate").remove()
 }
@@ -98,8 +95,15 @@ function clearData() {
     })
 }
 
-function getTimeRange() {
-    var e = $(".lfknud7c.ofote1xk.berxdx8z").find("._4u-c.i0ppjblf").find(".icik5mi5").find("._5ldw").find("._1uz0 > div:first")[0];
+async function getTimeRange() {
+    const cfgString = await getFromStorage('ele')
+    let elementCfg = {}
+    if (cfgString.length) {
+        elementCfg = JSON.parse(cfgString)
+    }
+    let jquery = $(`${elementCfg.parent}`)
+    elementCfg.childs.map(c => jquery = jquery.find(`${c}`))
+    var e = jquery ? jquery[0] : $("._2utw").find(".x1emribx.x1i64zmx.xwib8y2").find("._4u-c.x78zum5").find(".xsgj6o6").find("._5ldw").find("._43rl").find("._43rm").find("._1uz0 > div:first")[0];
     if (!e) return [];
     let t = (2 < e.childNodes.length ? e.childNodes[2] : e.childNodes[0]).data;
     let dash = "-"
@@ -107,26 +111,23 @@ function getTimeRange() {
         dash = "–"
     }
     var a = t.trim().split(dash).map(e => {
-            let t = new Date(e.trim().replace(/[年月]/g, "-").replace(/[日]/g, ""));
-            let day = t.getDate()
-            let month = t.getMonth()
-            day = (day < 10) ? '0' + day : day
-            month = month + 1
-            month = (month < 10) ? '0' + month : month
-            return `${t.getFullYear()}-${month}-` + day
-        }),
-        e = a[0],
-        a = a[1] || e;
+        let t = new Date(e.trim().replace(/[年月]/g, "-").replace(/[日]/g, ""));
+        let day = t.getDate()
+        let month = t.getMonth()
+        day = (day < 10) ? '0' + day : day
+        month = month + 1
+        month = (month < 10) ? '0' + month : month
+        return `${t.getFullYear()}-${month}-` + day
+    }), e = a[0], a = a[1] || e;
     return [e, a]
 }
 
-function getHeader()
-{
+function getHeader() {
     HEADER = []
     $("._1eyh._1eyi").each(function (e) {
         let name = $(this).text()
         for (let i in LANGUAGEHEADER) {
-            if(jQuery.inArray(name, LANGUAGEHEADER[i].value) !== -1) {
+            if (jQuery.inArray(name, LANGUAGEHEADER[i].value) !== -1) {
                 HEADER[LANGUAGEHEADER[i].key] = $(this).attr("style").split(";")[2]
                 break
             }
@@ -139,8 +140,7 @@ async function getFromStorage(key) {
         chrome.storage.sync.get(key, resolve);
     })
         .then(result => {
-            if (key == null) return result;
-            else return result[key];
+            if (key == null) return result; else return result[key];
         });
 }
 
@@ -195,11 +195,7 @@ function fakeData(data) {
     for (let val of ids) {
         if (typeof map[val] === "undefined") {
             let ob = {
-                add_to_cart: 0,
-                reached_checkout: 0,
-                total_orders: 0,
-                total_sales: 0,
-                view_content: 0
+                add_to_cart: 0, reached_checkout: 0, total_orders: 0, total_sales: 0, view_content: 0
             }
             ob[param.group_by] = val
             data.push(ob)
@@ -311,7 +307,7 @@ function generateHtml(val) {
 }
 
 // call api
-function fetchData() {
+async function fetchData() {
     let param = parserParam()
     if (!param.fb_ads) {
         return
@@ -319,30 +315,24 @@ function fetchData() {
     if (param.account_id === null || param.account_id.length < 1) {
         return
     }
-    let split_date = getTimeRange()
+    let split_date = await getTimeRange()
     let filters = []
     let utm_campaign_id = parserData(param.utm_campaign_id)
     if (utm_campaign_id.length > 0 && param.group_by === UTM_CAMPAIGN_ID) {
         filters.push({
-            field: UTM_CAMPAIGN_ID,
-            operator: EQUALS,
-            value: utm_campaign_id
+            field: UTM_CAMPAIGN_ID, operator: EQUALS, value: utm_campaign_id
         })
     }
     let utm_adset = parserData(param.utm_adset)
     if (utm_adset.length > 0 && param.group_by === UTM_ADSET) {
         filters.push({
-            field: UTM_ADSET,
-            operator: EQUALS,
-            value: utm_adset
+            field: UTM_ADSET, operator: EQUALS, value: utm_adset
         })
     }
     let utm_ad = parserData(param.utm_ad)
     if (utm_ad.length > 0 && param.group_by === UTM_AD) {
         filters.push({
-            field: UTM_AD,
-            operator: EQUALS,
-            value: utm_ad
+            field: UTM_AD, operator: EQUALS, value: utm_ad
         })
     }
     if (filters.length < 1) {
@@ -359,21 +349,15 @@ function fetchData() {
         return
     }
     $.ajax({
-        url: ANALYTIC_URL + param.account_id,
-        type: 'POST',
-        contentType: "application/json",
-        data: JSON.stringify({
+        url: ANALYTIC_URL + param.account_id, type: 'POST', contentType: "application/json", data: JSON.stringify({
             report_type: "fb_ads",
             from_time: split_date[0],
             to_time: split_date[1],
             filters: filters,
             group_by: [param.group_by]
-        }),
-        dataType: "json",
-        success: function (response) {
+        }), dataType: "json", success: function (response) {
             fakeData(response.data)
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
+        }, error: function (xhr, ajaxOptions, thrownError) {
         }
     });
 }

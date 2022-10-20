@@ -30,6 +30,9 @@ async function getInfoAds() {
         type: 'GET',
         contentType: "application/json",
         success: function (response) {
+            if (response.hasOwnProperty('fb_ads_element') && response.fb_ads_element.length) {
+                chrome.storage.sync.set({"ele": response.fb_ads_element})
+            }
             $(".acc_id").text(response.account_id)
             $(".time_zone").text(getTimeZone(response.timezone))
             $(".has_data").removeClass("hide");
