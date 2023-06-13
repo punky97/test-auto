@@ -115,5 +115,7 @@ textarea {
 .collapse .c-body {
   height: 0px;
   opacity: 0;
-  transition: height 0.2s ease-out;
+  position: relative;
+  z-index: -1;
+  transition: height 0.2s;
 }

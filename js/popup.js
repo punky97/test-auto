@@ -127,17 +127,16 @@ const buildAction = async () => {
 
   const allJob = chrome.storage.local;
 
-//   const multipleCase = supportMultipleTC(job);
-//   const multipleEnv = supportMultipleEnv(job);
+  //   const multipleCase = supportMultipleTC(job);
+  //   const multipleEnv = supportMultipleEnv(job);
 
-//   let runTc = [];
-//   let runEnv = [];
-//   if (multipleCase) {
-//     runTc.push(`(${tCases.join("|")})`);
-//   } else {
-//     runTc = tCases;
-//   }
-
+  //   let runTc = [];
+  //   let runEnv = [];
+  //   if (multipleCase) {
+  //     runTc.push(`(${tCases.join("|")})`);
+  //   } else {
+  //     runTc = tCases;
+  //   }
 
   for (const tc of tCases) {
     const res = await build({
@@ -280,10 +279,15 @@ const addEvent = () => {
       const content = document.getElementsByClassName("c-body")[0];
       if (content.clientHeight == 0) {
         content.style.opacity = 1;
+        content.style.zIndex = 1;
+        setTimeout(() => {
+          content.style.height = "120px";
+        }, 200);
         content.style.height = "120px";
       } else {
         content.style.height = "0px";
         setTimeout(() => {
+          content.style.zIndex = -1;
           content.style.opacity = 0;
         }, 200);
       }
