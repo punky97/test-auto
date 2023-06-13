@@ -1,6 +1,6 @@
 
 # Build auto pilot
-
+![img](https://dev-img.shopbase.net/10044/10044626/products/origin/1686649953193.png)
 1. Get Jenkins token
  - Goto https://autopilot.shopbase.dev/user/[Your_email]/configure.
  - Add new token.
