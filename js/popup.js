@@ -40,7 +40,7 @@ const build = async (params) => {
   myHeaders.append("Authorization", getAuth());
 
   var urlencoded = new URLSearchParams();
-  urlencoded.append("TEST_FILE_OR_FOLDER", "./tests");
+  urlencoded.append("TEST_FILE_OR_FOLDER", params.PATH.trim());
   urlencoded.append("SUITE_ID_OR_CASE_ID", params.SUITE_ID_OR_CASE_ID.trim());
   urlencoded.append("BRANCH", params.BRANCH);
   urlencoded.append("CI_ENV", params.CI_ENV);
@@ -112,25 +112,40 @@ const buildAction = async () => {
   const envs = document.getElementById("env").value.trim();
   // branch
   const branch = document.getElementById("branch").value.trim();
+  const path = document.getElementById("path").value.trim();
   // SUITE_ID_OR_CASE_ID
-  const cases = document.getElementById("case").value.trim();
+  const cases = document.getElementById("case").value.replace(/ /g, "");
   const tCases = cases.split(",");
 
   const errors = [];
   const successTc = [];
 
-  if (isInvalidParams([user, token, envs, branch, cases])) {
+  if (isInvalidParams([user, token, envs, branch, cases, path])) {
     errors.push("Params is not valid");
     return handleBuildResponse(400, successTc, errors);
   }
 
   const allJob = chrome.storage.local;
+
+//   const multipleCase = supportMultipleTC(job);
+//   const multipleEnv = supportMultipleEnv(job);
+
+//   let runTc = [];
+//   let runEnv = [];
+//   if (multipleCase) {
+//     runTc.push(`(${tCases.join("|")})`);
+//   } else {
+//     runTc = tCases;
+//   }
+
+
   for (const tc of tCases) {
     const res = await build({
       SUITE_ID_OR_CASE_ID: tc,
       CI_ENV: envs,
       BRANCH: branch,
       JOB: jobUrl,
+      PATH: path,
     });
     if (!res.success) {
       if (res.status >= 400) {
@@ -149,6 +164,24 @@ const buildAction = async () => {
     successTc.push(tc);
   }
   return handleBuildResponse(200, successTc, errors);
+};
+
+const supportMultipleTC = (job) => {
+  switch (job) {
+    case "hoanguyen":
+      return true;
+    default:
+      return false;
+  }
+};
+
+const supportMultipleEnv = (job) => {
+  switch (job) {
+    case "hoanguyen":
+      return true;
+    default:
+      return false;
+  }
 };
 
 const isInvalidParams = (params) => {
@@ -240,10 +273,25 @@ const addEvent = () => {
     "change",
     debounce(() => saveKeyToLocal())
   );
+
+  document
+    .getElementsByClassName("c-head")[0]
+    .addEventListener("click", (e) => {
+      const content = document.getElementsByClassName("c-body")[0];
+      if (content.clientHeight == 0) {
+        content.style.opacity = 1;
+        content.style.height = "120px";
+      } else {
+        content.style.height = "0px";
+        setTimeout(() => {
+          content.style.opacity = 0;
+        }, 200);
+      }
+    });
 };
 
 function getParamsSaved() {
-  return ["user", "token", "job", "env", "branch", "case"];
+  return ["user", "token", "job", "env", "branch", "case", "path"];
 }
 
 function debounce(func, timeout = 300) {

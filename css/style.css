@@ -10,12 +10,13 @@ body {
   width: 600px;
   margin: 0px !important;
   height: auto;
-  overflow: scroll;
+  overflow: hidden;
 }
 .div-content {
   display: block;
   padding: 0px 18px;
-  overflow: auto;
+  overflow: scroll;
+  max-height: 500px;
 }
 
 .banner {
@@ -27,8 +28,8 @@ body {
 }
 
 .banner img {
-    height: 70px;
-    margin-right: 20px;
+  height: 70px;
+  margin-right: 20px;
 }
 
 .form-funny span {
@@ -96,4 +97,23 @@ textarea {
 }
 .text-green {
   color: #45a049;
+}
+
+.collapse .c-head {
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+}
+
+.collapse .c-head:after {
+  content: "\002B";
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.collapse .c-body {
+  height: 0px;
+  opacity: 0;
+  transition: height 0.2s ease-out;
 }

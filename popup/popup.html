@@ -3,16 +3,12 @@
   <head>
     <title>Build Test</title>
     <link rel="stylesheet" type="text/css" href="/css/popup.css" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../css/style.css"
-    />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
   </head>
   <body>
     <div class="flex banner">
-        <img src="../css/jenkins_400.png">
-        <h1>Build autopilot</h1>
+      <img src="../css/jenkins_400.png" />
+      <h1>Build autopilot</h1>
     </div>
     <div class="container">
       <div class="flex">
@@ -22,20 +18,27 @@
             <ul class="text-red" id="errors"></ul>
             <form id="source-form" class="form-funny">
               <div class="content">
-                <input
-                  type="text"
-                  class="c-input"
-                  id="user"
-                  name="user"
-                  placeholder="User"
-                />
-                <input
-                  type="password"
-                  class="c-input"
-                  id="token"
-                  name="token"
-                  placeholder="Token"
-                />
+                <div class="collapse">
+                  <div class="c-head">
+                    Credentials
+                  </div>
+                  <div class="c-body">
+                    <input
+                      type="text"
+                      class="c-input"
+                      id="user"
+                      name="user"
+                      placeholder="User"
+                    />
+                    <input
+                      type="password"
+                      class="c-input"
+                      id="token"
+                      name="token"
+                      placeholder="Token"
+                    />
+                  </div>
+                </div>
 
                 <select name="job" id="job">
                   <option value="hoanguyen">pipeline-hoanguyen</option>
@@ -58,13 +61,21 @@
                   placeholder="Branch"
                 />
               </div>
+              <input
+                type="text"
+                class="c-input"
+                id="path"
+                name="path"
+                placeholder="TEST_FILE_OR_FOLDER"
+              />
               <textarea
                 type="text"
                 class="c-input"
                 id="case"
                 name="case"
                 placeholder="Case(Split by ,)"
-              > </textarea>
+              >
+              </textarea>
               <button type="button" class="btn-submit" id="btnSubmit">
                 Build
               </button>
