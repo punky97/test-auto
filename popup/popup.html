@@ -1,49 +1,88 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Facebook data reporting assistant</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
-<div class="wrapper">
-    <div class="heading">
-        <h3 class="text">ShopBase: Facebook Reporting Assistant
-        </h3>
+  <head>
+    <title>Build Test</title>
+    <link rel="stylesheet" type="text/css" href="/css/popup.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../css/style.css"
+    />
+  </head>
+  <body>
+    <div class="flex banner">
+        <img src="../css/jenkins_400.png">
+        <h1>Build autopilot</h1>
     </div>
-    <div class="content">
-        <div class="content-data">
-            <div class="not_found">
-                <p>
-                    No Facebook Ads account ID found in this page.
-                </p>
-            </div>
-            <div class="has_data hide">
-                <p>
-                    1 Facebook Ads account ID found in this page.
-                </p>
-                <p>
-                    Ads account ID: <b class="acc_id"></b>
-                </p>
-                <p>
-                    Timezone: <b class="time_zone"></b>
-                </p>
-            </div>
+    <div class="container">
+      <div class="flex">
+        <div class="flex-one">
+          <div class="div-content">
+            <ul class="text-green" id="successTC"></ul>
+            <ul class="text-red" id="errors"></ul>
+            <form id="source-form" class="form-funny">
+              <div class="content">
+                <input
+                  type="text"
+                  class="c-input"
+                  id="user"
+                  name="user"
+                  placeholder="User"
+                />
+                <input
+                  type="password"
+                  class="c-input"
+                  id="token"
+                  name="token"
+                  placeholder="Token"
+                />
+
+                <select name="job" id="job">
+                  <option value="hoanguyen">pipeline-hoanguyen</option>
+                  <option value="pipeline">pipeline</option>
+                  <option value="screenshot">screenshot</option>
+                </select>
+
+                <input
+                  type="text"
+                  class="c-input"
+                  id="env"
+                  name="env"
+                  placeholder="Env"
+                />
+                <input
+                  type="text"
+                  class="c-input"
+                  id="branch"
+                  name="branch"
+                  placeholder="Branch"
+                />
+              </div>
+              <textarea
+                type="text"
+                class="c-input"
+                id="case"
+                name="case"
+                placeholder="Case(Split by ,)"
+              > </textarea>
+              <button type="button" class="btn-submit" id="btnSubmit">
+                Build
+              </button>
+            </form>
+          </div>
         </div>
-        <div class="has_data hide">
-            <label class="switch">
-                <input type="checkbox" name="on_off" checked>
-                <span class="slider round"></span>
-            </label>
-        </div>
+        <!-- <div class="flex-one">
+          <button type="button" class="div-header right">Destination</button>
+          <div class="div-content">
+            <form id="destination-form" class="form-funny">
+              <a class="btn-collap"> Credentials </a>
+            </form>
+          </div>
+        </div> -->
+      </div>
+      <!-- <button style="padding: 20px;" id="displayAlert">Display</button> -->
+      <script src="../js/const.js"></script>
+      <script src="../js/popup.js"></script>
     </div>
-</div>
-<script src="../js/vendor/jquery.min.js"></script>
-<script src="../js/const.js"></script>
-<script src="../js/vendor/timezone.js"></script>
-<script src="../js/vendor/moment.js"></script>
-<script src="../js/vendor/moment_timezone.js"></script>
-<script src="../js/popup.js"></script>
-</body>
+  </body>
 </html>

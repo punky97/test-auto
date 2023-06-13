@@ -1,94 +1,99 @@
-*{
-    padding:0;
-    margin:0;
-}
-body,html{
-    background: #ffffff;
-}
-.wrapper {
-    width: 430px;
+element {
+  /* font-weight */
+  --bold: 800;
+
+  /* font-size */
+  --header-1: 50px !important;
 }
 
-.hide {
-    display: none;
+body {
+  width: 600px;
+  margin: 0px !important;
+  height: auto;
+  overflow: scroll;
+}
+.div-content {
+  display: block;
+  padding: 0px 18px;
+  overflow: auto;
 }
 
-.heading {
-    padding: 10px;
-    background-color: #3e8ced;
-    color: #ffffff;
+.banner {
+  color: white;
+  padding: 10px;
+  margin: 0px 0px 10px 0px !important;
+  width: 100%;
+  background-color: black;
 }
 
-.content {
-    padding: 10px;
+.banner img {
+    height: 70px;
+    margin-right: 20px;
 }
 
-.content p {
-    padding-bottom: 10px;
-    font-size: 14px;
-    word-wrap: break-word;
+.form-funny span {
+  width: 100%;
 }
 
-.heading h3 {
-    padding: 0px;
+.form-funny input[type="text"],
+input[type="password"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
+.form-funny textarea {
+  height: 100px;
 }
 
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+.form-funny input[type="submit"] {
+  width: 100%;
+  background-color: #4caf50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
+.form-funny input[type="submit"]:hover {
+  background-color: #45a049;
 }
 
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+.flex {
+  display: flex;
+  flex-direction: row;
 }
 
-input:checked + .slider {
-    background-color: #2196F3;
+.flex-one {
+  flex: 1;
 }
 
-input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+.right {
+  text-align: right;
 }
 
-input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+.btn-submit {
+  width: 100%;
+  background-color: #4caf50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-/* Rounded sliders */
-.slider.round {
-    border-radius: 34px;
+.text-red {
+  color: red;
 }
-
-.slider.round:before {
-    border-radius: 50%;
+.text-green {
+  color: #45a049;
 }

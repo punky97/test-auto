@@ -1,27 +1,20 @@
 {
-  "name": "ShopBase Ads Assistant",
-  "description": "This extension is built to adapt to the iOS 14 privacy settings, helps ShopBase sellers view real-time data on Facebook Ads Manager.",
+  "name": "Autopilot",
+  "description": "Autopilot",
   "version": "1.0.1",
   "manifest_version": 3,
   "background": {
     "service_worker": "js/background.js"
   },
-  "permissions": ["storage", "activeTab"],
+  "permissions": ["storage", "cookies", "webRequest"],
+  "host_permissions": ["https://autopilot.shopbase.dev/*"],
   "action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
-      "16": "/icons/fbads.png",
-      "32": "/icons/fbads.png",
-      "48": "/icons/fbads.png",
-      "128": "/icons/fbads.png"
+      "16": "/icons/jenkins_48.png",
+      "32": "/icons/jenkins_48.png",
+      "48": "/icons/jenkins_48.png",
+      "128": "/icons/jenkins_48.png"
     }
-  },
-  "content_scripts": [
-    {
-      "matches": ["https://*.facebook.com/*"],
-      "js": ["js/vendor/jquery.min.js", "js/vendor/language.js", "js/const.js", "js/content.js", "js/vendor/localbase.dev.js"],
-      "css" : []
-    }
-  ]
-
+  }
 }

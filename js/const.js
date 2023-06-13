@@ -1,2 +1,7 @@
-const ANALYTIC_URL = "https://gapi.dev.shopbase.net/admin/analytics/app?account_id="
-const ACCOUNT_URL = "https://gapi.dev.shopbse.net/admin/sales-channel/app?account_id="
+const jobHoaNguyenUrl =
+  "https://autopilot.shopbase.dev/job/autopilot-next/job/pipeline-hoanguyen/";
+
+const jobOriginalUrl =
+  "https://autopilot.shopbase.dev/job/autopilot-next/job/pipeline/";
+
+const jobScreenShotUrl = "https://autopilot.shopbase.dev/job/GenerateSnapshot-next/job/pipeline/"
