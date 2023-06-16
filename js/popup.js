@@ -120,7 +120,7 @@ const buildAction = async () => {
   const errors = [];
   const successTc = [];
 
-  if (isInvalidParams([user, token, envs, branch, cases, path])) {
+  if (isInvalidParams([user, token, envs, branch, path])) {
     errors.push("Params is not valid");
     return handleBuildResponse(400, successTc, errors);
   }
